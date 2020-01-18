@@ -1,0 +1,17 @@
+<p
+  >Your selection has <span id="count"></span> characters</p
+>
+<button id="close">Close</button>
+<script>
+  onmessage = event => {
+    document.getElementById('count').innerHTML =
+      event.data.pluginMessage.selection.length
+  }
+
+  document.getElementById('close').onclick = () => {
+    parent.postMessage(
+      { pluginMessage: { type: 'close' } },
+      '*'
+    )
+  }
+</script>
