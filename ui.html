@@ -1,16 +1,45 @@
-<p
-  >Your selection has <span id="count"></span> characters</p
->
-<button id="close">Close</button>
+<div>
+  <p>
+    Your selection has <span id="count"></span> characters
+  </p>
+  <button id="loadCharacters">load Characters</button>
+  <button id="close">Close</button>
+</div>
+<br />
+<br />
+<div>
+  <input type="text" id="currentText" />
+  <button id="setText">Set Text</button>
+</div>
 <script>
   onmessage = event => {
-    document.getElementById('count').innerHTML =
-      event.data.pluginMessage.selection.length
+    if (
+      event.data.pluginMessage.type ===
+      'response:characters'
+    ) {
+      document.getElementById('count').innerHTML =
+        event.data.pluginMessage.selection.length
+    }
   }
-
+  document.getElementById('setText').onclick = () => {
+    const text = document.getElementById('currentText')
+      .value
+    parent.postMessage(
+      { pluginMessage: { type: 'request:setText', text } },
+      '*'
+    )
+  }
   document.getElementById('close').onclick = () => {
     parent.postMessage(
       { pluginMessage: { type: 'close' } },
+      '*'
+    )
+  }
+  document.getElementById(
+    'loadCharacters'
+  ).onclick = () => {
+    parent.postMessage(
+      { pluginMessage: { type: 'request:characters' } },
       '*'
     )
   }
